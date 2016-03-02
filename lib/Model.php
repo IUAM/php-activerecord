@@ -578,7 +578,7 @@ class Model
 	public function attributes()
 	{
 		$attrs = $this->attributes;
-		$modelReflector = new ReflectionClass(get_class($this));
+		$modelReflector = new \ReflectionClass(get_class($this));
 		$methods = $modelReflector->getMethods(~\ReflectionMethod::IS_STATIC & \ReflectionMethod::IS_PUBLIC);
 		foreach ($methods as $method)
 		{
