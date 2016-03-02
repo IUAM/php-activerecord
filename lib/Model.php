@@ -577,7 +577,17 @@ class Model
 	 */
 	public function attributes()
 	{
-		return $this->attributes;
+		$attrs = $this->attributes;
+		$modelReflector = new ReflectionClass(get_class($this));
+		$methods = $modelReflector->getMethods(~ReflectionMethod::IS_STATIC & ReflectionMethod::IS_PUBLIC);
+		foreach ($methods as $method)
+		{
+			if (preg_match("/^get_attribute_/", $method->getName()))
+			{
+				$attrs[str_replace('get_attribute_', '', $method->getName())] = $method->invoke($this);
+			}
+		}
+		return $attrs;
 	}
 
 	/**
